@@ -18,7 +18,7 @@ if( !empty($jsonObj)) {
 	$trafficBlocked = $jsonObj->AccidentData->AdditionalInfo->TrafficBlocked;
 	$message = $jsonObj->AccidentData->AdditionalInfo->Message;
 	
-        // ´Ö§àÇÅÒ¨Ò¡ Server ¢Í§ TimeZone »ÃÐà·Èä·Â
+        // ï¿½Ö§ï¿½ï¿½ï¿½Ò¨Ò¡ Server ï¿½Í§ TimeZone ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         $date = new DateTime();
         $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
         $dateTime = $date->format('Y-m-d H:i:s');
