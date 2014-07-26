@@ -10,14 +10,18 @@ $filename="json_messages.html";
 
 if( !empty($jsonObj)) {
 
-	$latitude = $jsonObj->AccidentReportData->Position->Latitude;
-	$longitude = $jsonObj->AccidentReportData->Position->Longitude;
-	$accidentType = $jsonObj->AccidentReportData->AdditionalInfo->AccidentType;
-	$amountOfInjured = $jsonObj->AccidentReportData->AdditionalInfo->AmountOfInjured;
-	$amountOfDead = $jsonObj->AccidentReportData->AdditionalInfo->AmountOfDead;
-	$trafficBlocked = $jsonObj->AccidentReportData->AdditionalInfo->TrafficBlocked;
-	$message = $jsonObj->AccidentReportData->AdditionalInfo->Message;
-	$date = $jsonObj->AccidentReportData->Date->Date;
+	$latitude = $jsonObj->AccidentData->Position->Latitude;
+	$longitude = $jsonObj->AccidentData->Position->Longitude;
+	$accidentType = $jsonObj->AccidentData->AdditionalInfo->AccidentType;
+	$amountOfInjured = $jsonObj->AccidentData->AdditionalInfo->AmountOfInjured;
+	$amountOfDead = $jsonObj->AccidentData->AdditionalInfo->AmountOfDead;
+	$trafficBlocked = $jsonObj->AccidentData->AdditionalInfo->TrafficBlocked;
+	$message = $jsonObj->AccidentData->AdditionalInfo->Message;
+	
+        // ดึงเวลาจาก Server ของ TimeZone ประเทศไทย
+        $date = new DateTime();
+        $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
+        $dateTime = $date->format('Y-m-d H:i:s');
         
 	//Pass variables
 	session_start();
@@ -28,7 +32,8 @@ if( !empty($jsonObj)) {
 	$_SESSION['amountOfDead'] 		= $amountOfDead;
 	$_SESSION['trafficBlocked'] 	= $trafficBlocked;
 	$_SESSION['message'] 			= $message;
-	$_SESSION['date'] 				= $date;
+	$_SESSION['dateTime'] 		= $dateTime;
+        
 	//call saveToSql.php file
 	include ('saveToSql.php');
 	
@@ -41,7 +46,7 @@ if( !empty($jsonObj)) {
 	", AmountOfDead = ".$amountOfDead.
 	", TrafficBlocked = ".$trafficBlocked.
 	", Message = ".$message.
-	", Date = ".$date.
+	", Date = ".$dateTime.
 	"<br />",
 	FILE_APPEND);
 
