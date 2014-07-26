@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/receiveFromApp.php=UTF-8
-encoding//src/saveToSql.php=UTF-8
+encoding//src/ReportServer/log.php=UTF-8
+encoding//src/ReportServer/reportAccident.php=UTF-8
+encoding//src/ReportServer/saveToDB.php=UTF-8
+encoding//src/ReportServer/saveToLog.php=UTF-8
