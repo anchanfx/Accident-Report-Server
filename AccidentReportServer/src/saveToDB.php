@@ -24,8 +24,15 @@ $dateTime		= $_SESSION['dateTime'];
 // วิธีทำ,ตัวอย่างอยู่ตามลิ้งด้านล่าง
 // http://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php
 
-mysqli_query($con,"INSERT INTO AccidentReport (ID,Longitude,Latitude,AccidentType,
-AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
-VALUES (NULL,$longitude,$latitude,'$accidentType',$amountOfInjured,$amountOfDead,
-$trafficBlocked,'$message','$dateTime')");
+// mysqli_query($con,"INSERT INTO AccidentReport (ID,Longitude,Latitude,AccidentType,
+// AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
+// VALUES (NULL,$longitude,$latitude,'$accidentType',$amountOfInjured,$amountOfDead,
+// $trafficBlocked,'$message','$dateTime')");
+$query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
+        AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
+        VALUES (?,?,?,?,?,?,?,?)";
+$stmt = $con->prepare($query);
+$stmt->bind_param("ddsiibss", $latitude,$longitude,$accidentType,$amountOfInjured,
+		          $amountOfDead,$trafficBlocked,$message,$dateTime);
+$stmt->execute();
 ?>
