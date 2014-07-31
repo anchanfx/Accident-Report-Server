@@ -10,11 +10,11 @@ $con=mysqli_connect( $host,$username,$pass_word,$DB) or die ("ติดต่อ
 
 //receive variavles from reportAccident.php file
 session_start();
-$latitude		= $_SESSION['latitude'];
 $longitude		= $_SESSION['longitude'];
+$latitude		= $_SESSION['latitude'];
 $accidentType		= $_SESSION['accidentType'];
-$amountOfInjured	= $_SESSION['amountOfInjured'];
 $amountOfDead		= $_SESSION['amountOfDead'];
+$amountOfInjured	= $_SESSION['amountOfInjured'];
 $trafficBlocked		= $_SESSION['trafficBlocked'];
 $message		= $_SESSION['message'];
 $dateTime		= $_SESSION['dateTime'];
@@ -32,7 +32,7 @@ $query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
         AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
         VALUES (?,?,?,?,?,?,?,?)";
 $stmt = $con->prepare($query);
-$stmt->bind_param("ddsiibss", $latitude,$longitude,$accidentType,$amountOfInjured,
-		          $amountOfDead,$trafficBlocked,$message,$dateTime);
+$stmt->bind_param("ddsiibss", $longitude,$latitude,$accidentType,$amountOfDead,
+				  $amountOfInjured,$trafficBlocked,$message,$dateTime);
 $stmt->execute();
 ?>
