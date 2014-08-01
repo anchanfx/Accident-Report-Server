@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-require_once('AccidentReport.php');
+require_once('accidentReport.php');
 $log_file = 'log';
 
 //receive variavles from receiveFromApp.php file
