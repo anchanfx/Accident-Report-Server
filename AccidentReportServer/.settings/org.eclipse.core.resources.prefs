@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/accidentReport.php=UTF-8
+encoding//src/AccidentReport.php=UTF-8
 encoding//src/log.php=UTF-8
 encoding//src/reportAccident.php=UTF-8
 encoding//src/saveToDB.php=UTF-8
