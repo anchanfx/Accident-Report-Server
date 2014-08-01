@@ -1,28 +1,22 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+require_once('accidentReport.php');
 $log_file = 'log';
 
 //receive variavles from receiveFromApp.php file
 session_start();
-$latitude		= $_SESSION['latitude'];
-$longitude		= $_SESSION['longitude'];
-$accidentType		= $_SESSION['accidentType'];
-$amountOfInjured	= $_SESSION['amountOfInjured'];
-$amountOfDead		= $_SESSION['amountOfDead'];
-$trafficBlocked		= $_SESSION['trafficBlocked'];
-$message		= $_SESSION['message'];
-$dateTime		= $_SESSION['dateTime'];
+$accidentReport	= $_SESSION['accidentReport'];
 
 // write (append) the data to the file
 	file_put_contents($log_file,
-	"Latitude = ".$latitude.
-	", Longtitude = ".$longitude.
-	", AccidentType = ".$accidentType.
-	", AmountOfInjured = ".$amountOfInjured.
-	", AmountOfDead = ".$amountOfDead.
-	", TrafficBlocked = ".$trafficBlocked.
-	", Message = ".$message.
-	", Date = ".$dateTime.
+	"Longitude = ".$accidentReport->longitude.
+	", Latitude = ".$accidentReport->latitude.
+	", AccidentType = ".$accidentReport->accidentType.
+	", AmountOfDead = ".$accidentReport->amountOfDead.
+	", AmountOfInjured = ".$accidentReport->amountOfInjured.
+	", TrafficBlocked = ".$accidentReport->trafficBlocked.
+	", Message = ".$accidentReport->message.
+	", Date = ".$accidentReport->dateTime.
 	"<br />",
 	FILE_APPEND);
 ?>        

@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+require_once('accidentReport.php');
 $jsonString = file_get_contents('php://input');
 $jsonObj = json_decode($jsonString);
 $acknowledge = array();
 
 if(!empty($jsonObj)) {
-
 	$latitude = $jsonObj->AccidentData->Position->Latitude;
 	$longitude = $jsonObj->AccidentData->Position->Longitude;
 	$accidentType = $jsonObj->AccidentData->AdditionalInfo->AccidentType;
@@ -13,34 +13,32 @@ if(!empty($jsonObj)) {
 	$amountOfDead = $jsonObj->AccidentData->AdditionalInfo->AmountOfDead;
 	$trafficBlocked = $jsonObj->AccidentData->AdditionalInfo->TrafficBlocked;
 	$message = $jsonObj->AccidentData->AdditionalInfo->Message;
+
+        // เปลี่ยน False จากเก็บเป็น null ให้เก็บเป็น 0
+	if(empty($trafficBlocked))
+	{
+		$trafficBlocked = 0;
+	}
+
+	// ดึงเวลาจาก TimeZone ของประเทศไทย
+	$date = new DateTime();
+	$date->setTimezone(new DateTimeZone('Asia/Bangkok'));
+	$dateTime = $date->format('Y-m-d H:i:s');
+
 	
-        if(empty($trafficBlocked))
-        {
-                $trafficBlocked = 0;
-        }
+	$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,
+			$amountOfDead,$amountOfInjured,$trafficBlocked,$message,$dateTime);
+	
+        session_start();
+ 	$_SESSION['accidentReport'] = $accidentReport;
         
-        // ดึงเวลาจาก TimeZone ของประเทศไทย
-        $date = new DateTime();
-        $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
-        $dateTime = $date->format('Y-m-d H:i:s');
-        
-	//Pass variables
-	session_start();
-	$_SESSION['latitude'] 		= $latitude;
-	$_SESSION['longitude'] 		= $longitude;
-	$_SESSION['accidentType'] 	= $accidentType;
-	$_SESSION['amountOfInjured'] 	= $amountOfInjured;
-	$_SESSION['amountOfDead'] 	= $amountOfDead;
-	$_SESSION['trafficBlocked'] 	= $trafficBlocked;
-	$_SESSION['message'] 		= $message;
-	$_SESSION['dateTime'] 		= $dateTime;
-        
+
 	//call saveToDB.php file
 	include ('saveToDB.php');
-	
-        //call saveToLog.php file
-        include ('saveToLog.php');
-    
+
+	//call saveToLog.php file
+	include ('saveToLog.php');
+
 	$acknowledge['AcknowledgeInfo']['Message'] = 'Report Acknowledged';
 	echo json_encode($acknowledge);
 }

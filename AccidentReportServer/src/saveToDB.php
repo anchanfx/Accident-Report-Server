@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+require_once('accidentReport.php');
 $host="fdb7.runhosting.com";
 $username="1679495_dbacc";
 $pass_word="tot_1288";
@@ -10,29 +11,16 @@ $con=mysqli_connect( $host,$username,$pass_word,$DB) or die ("ติดต่อ
 
 //receive variavles from reportAccident.php file
 session_start();
-$longitude		= $_SESSION['longitude'];
-$latitude		= $_SESSION['latitude'];
-$accidentType		= $_SESSION['accidentType'];
-$amountOfDead		= $_SESSION['amountOfDead'];
-$amountOfInjured	= $_SESSION['amountOfInjured'];
-$trafficBlocked		= $_SESSION['trafficBlocked'];
-$message		= $_SESSION['message'];
-$dateTime		= $_SESSION['dateTime'];
+$accidentReport	= $_SESSION['accidentReport'];
 
-// โค้ด Insert ด้านล่างโดน SQL Injection ได้
-// แก้ไขโค้ดใหม่ให้ป้องกัน SQL Injection ด้วย 
-// วิธีทำ,ตัวอย่างอยู่ตามลิ้งด้านล่าง
 // http://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php
-
-// mysqli_query($con,"INSERT INTO AccidentReport (ID,Longitude,Latitude,AccidentType,
-// AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
-// VALUES (NULL,$longitude,$latitude,'$accidentType',$amountOfInjured,$amountOfDead,
-// $trafficBlocked,'$message','$dateTime')");
 $query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
-        AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
-        VALUES (?,?,?,?,?,?,?,?)";
+AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
+VALUES (?,?,?,?,?,?,?,?)";
 $stmt = $con->prepare($query);
-$stmt->bind_param("ddsiibss", $longitude,$latitude,$accidentType,$amountOfDead,
-				  $amountOfInjured,$trafficBlocked,$message,$dateTime);
+$stmt->bind_param("ddsiibss", 
+                $accidentReport->longitude,$accidentReport->latitude,$accidentReport->accidentType,
+				$accidentReport->amountOfDead,$accidentReport->amountOfInjured,
+				$accidentReport->trafficBlocked,$accidentReport->message,$accidentReport->dateTime);
 $stmt->execute();
 ?>
