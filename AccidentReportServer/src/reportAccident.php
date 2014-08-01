@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-require_once('accidentReport.php');
+require_once('AccidentReport.php');
 $jsonString = file_get_contents('php://input');
 $jsonObj = json_decode($jsonString);
 $acknowledge = array();
@@ -34,10 +34,10 @@ if(!empty($jsonObj)) {
         
 
 	//call saveToDB.php file
-	include ('saveToDB.php');
+	include('saveToDB.php');
 
 	//call saveToLog.php file
-	include ('saveToLog.php');
+	include('saveToLog.php');
 
 	$acknowledge['AcknowledgeInfo']['Message'] = 'Report Acknowledged';
 	echo json_encode($acknowledge);

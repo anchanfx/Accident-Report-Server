@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-require_once('accidentReport.php');
+require_once('AccidentReport.php');
 $host="fdb7.runhosting.com";
 $username="1679495_dbacc";
 $pass_word="tot_1288";
@@ -20,7 +20,7 @@ VALUES (?,?,?,?,?,?,?,?)";
 $stmt = $con->prepare($query);
 $stmt->bind_param("ddsiibss", 
                 $accidentReport->longitude,$accidentReport->latitude,$accidentReport->accidentType,
-				$accidentReport->amountOfDead,$accidentReport->amountOfInjured,
-				$accidentReport->trafficBlocked,$accidentReport->message,$accidentReport->dateTime);
+		$accidentReport->amountOfDead,$accidentReport->amountOfInjured,
+		$accidentReport->trafficBlocked,$accidentReport->message,$accidentReport->dateTime);
 $stmt->execute();
 ?>

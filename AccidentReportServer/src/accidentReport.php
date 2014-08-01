@@ -1,14 +1,14 @@
 <?php
 	class AccidentReport{
 		
-		private $longitude;
-		private $latitude;
-		private $accidentType;
-		private $amountOfDead;
-		private $amountOfInjured;
-		private $trafficBlocked;
-		private $message;
-		private $dateTime;
+		public $longitude;
+		public $latitude;
+		public $accidentType;
+		public $amountOfDead;
+		public $amountOfInjured;
+		public $trafficBlocked;
+		public $message;
+		public $dateTime;
 		
 		function __construct($longitude,$latitude,$accidentType,$amountOfDead,
 				$amountOfInjured,$trafficBlocked,$message,$dateTime)
