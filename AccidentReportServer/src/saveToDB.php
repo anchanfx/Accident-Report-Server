@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-require_once('accidentReport.php');
+require_once('AccidentReport.php');
 $host="fdb7.runhosting.com";
 $username="1679495_dbacc";
 $pass_word="tot_1288";

@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-require_once('accidentReport.php');
+require_once('AccidentReport.php');
 $jsonString = file_get_contents('php://input');
 $jsonObj = json_decode($jsonString);
 $acknowledge = array();
