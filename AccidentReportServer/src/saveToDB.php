@@ -8,6 +8,7 @@ $DB="1679495_dbacc";
 
 // connect database
 $con=mysqli_connect( $host,$username,$pass_word,$DB) or die ("ติดต่อ Mysql ไม่ได้ ");
+$con->set_charset("utf8");
 
 //receive variavles from reportAccident.php file
 session_start();
