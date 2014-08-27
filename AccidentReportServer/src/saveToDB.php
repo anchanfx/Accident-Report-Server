@@ -1,14 +1,11 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
 require_once('AccidentReport.php');
-include_once 'connect.php';
+require('connect.php');
 $con->set_charset("utf8");
 
-//receive variavles from reportAccident.php file
 session_start();
 $accidentReport	= $_SESSION['accidentReport'];
 
-// http://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php
 $query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
 AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
 VALUES (?,?,?,?,?,?,?,?)";
@@ -18,4 +15,5 @@ $stmt->bind_param("ddsiiiss",
 		$accidentReport->amountOfDead,$accidentReport->amountOfInjured,
 		$accidentReport->trafficBlocked,$accidentReport->message,$accidentReport->dateTime);
 $stmt->execute();
+mysqli_close($con);
 ?>
