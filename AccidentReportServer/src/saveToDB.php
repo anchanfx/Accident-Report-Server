@@ -13,7 +13,7 @@ $query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
 AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
 VALUES (?,?,?,?,?,?,?,?)";
 $stmt = $con->prepare($query);
-$stmt->bind_param("ddsiibss", 
+$stmt->bind_param("ddsiiiss", 
                 $accidentReport->longitude,$accidentReport->latitude,$accidentReport->accidentType,
 		$accidentReport->amountOfDead,$accidentReport->amountOfInjured,
 		$accidentReport->trafficBlocked,$accidentReport->message,$accidentReport->dateTime);
