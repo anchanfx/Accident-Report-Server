@@ -45,9 +45,8 @@ function echoAccidentReport($accidentReport) {
 }
 
 function Test_packReportAcknowledge() {
-	$result = packReportAcknowledge();
+	$result = packReportAcknowledge("TEST MESSAGE");
         echo $result;
-        echo $result->AcknowledgeInfo;
 }
 
 Test1_extractReportData();
