@@ -2,11 +2,23 @@
 header('Content-Type: text/html; charset=utf-8');
 require_once('AccidentReport.php');
 require_once('Time.php');
+require_once ('connect.php');
+require_once ('DB.php');
 
 function callSaveToDB($data) {
-        session_start();
-        $_SESSION['accidentReport'] = $data;
-        include('saveToDB.php');
+		$con = connect();
+        insertAccidentData($con,$data);
+        $con->close();
+}
+
+function callSelectMsg($code){
+		$con1 = connect();
+		$result = selectMessage($con1,$code);
+		if($result == null){
+			return 'NULL';
+		}
+		return $result;
+		$con1->close();
 }
 
 $dateTime = getThailandTime();
@@ -16,4 +28,13 @@ $accidentReport3 = new AccidentReport(100.001,10.111,'เทสไทย', 0, 0,
 callSaveToDB($accidentReport1);
 callSaveToDB($accidentReport2);
 callSaveToDB($accidentReport3);
+
+$code1 = '0000';
+$code2 = '0001';
+$code3 = 'Hi!';
+echo callSelectMsg($code1); 
+echo "<br>";
+echo callSelectMsg($code2); 
+echo "<br>";
+echo callSelectMsg($code3);
 ?>

@@ -21,10 +21,10 @@ function extractReportData($jsonString) {
 	return $accidentReport;
 }
 
-function packReportAcknowledge() {
+function packReportAcknowledge($content) {
 	$acknowledge = array();
 	
-	$acknowledge['AcknowledgeInfo']['Message'] = 'Report Acknowledged';
+	$acknowledge['AcknowledgeInfo']['Message'] = $content;
 	$jsonObject = json_encode($acknowledge);
 	
 	return $jsonObject;

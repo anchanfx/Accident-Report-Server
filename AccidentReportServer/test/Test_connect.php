@@ -1,9 +1,9 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-
+require_once('connect.php');
 function callConnect() {
-        include('connect.php');
-        return $con;
+
+        return connect();
 }
 
 $con = callConnect();

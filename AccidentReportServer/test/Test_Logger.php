@@ -2,11 +2,11 @@
 header('Content-Type: text/html; charset=utf-8');
 require_once('AccidentReport.php');
 require_once('Time.php');
+require_once('logger.php');
 
 function callSaveToLog($data) {
-        session_start();
-        $_SESSION['accidentReport'] = $data;
-        include('saveToLog.php');
+		$log_file = 'log';
+        logAccidentReport($log_file,$data);
 }
 
 $dateTime = getThailandTime();
