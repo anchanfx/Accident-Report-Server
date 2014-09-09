@@ -3,5 +3,5 @@ encoding//src/AccidentReport.php=UTF-8
 encoding//src/log.php=UTF-8
 encoding//src/logger.php=UTF-8
 encoding//src/reportAccident.php=UTF-8
-encoding//test/Test_DB.php=UTF-8
-encoding//test/Test_connect.php=UTF-8
+encoding//tests_manual_script/Test_DB.php=UTF-8
+encoding//tests_manual_script/Test_connect.php=UTF-8
