@@ -11,22 +11,27 @@ require_once ('connect.php');
 function run(){
 	$jsonString = file_get_contents('php://input');
 	$log_file = 'log';
-	
+
 	if(!empty($jsonString)) {
-		$accidentReport = extractReportData($jsonString);
-		$accidentReport->dateTime = getThailandTime();
-   
+		$jsonObj = new JSONObjectAdapter();
+		$timeThai = new Time();
+		$accidentReport = $jsonObj->extractReportData($jsonString);
+		$accidentReport->dateTime = $timeThai->getThailandTime();
+		 
 		//save data To MySQL
 		$con = connect();
-		insertAccidentData($con,$accidentReport);
+		$db = new DB();
+		$db->insertAccidentData($con,$accidentReport);
 		$con->close();
 		//save data To log file
-		logAccidentReport($log_file,$accidentReport);
+		$log = new logger();
+		$log->logAccidentReport($log_file,$accidentReport);
 		//respond from server to android
 		$con1 = connect();
-		$msg = selectMessage($con1,'0000');
-		$msgJson = packReportAcknowledge($msg);
-		Acknowledge($msgJson);
+		$msg = $db->selectMessage($con1,'0000');
+		$msgJson = $jsonObj->packReportAcknowledge($msg);
+		$Ack = new Sender();
+		echo $Ack->Acknowledge($msgJson);
 		$con1->close();
 	}
 }
