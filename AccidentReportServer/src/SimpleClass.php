@@ -1,8 +1,8 @@
 <?php
-	class SimpleClass {
-	
-		function simpleFunction() {
-			return "Simple";
-		}
+class SimpleClass {
+
+	function simpleFunction() {
+		return "Simple";
 	}
+}
 ?>

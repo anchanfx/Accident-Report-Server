@@ -1,6 +1,8 @@
 <?php
+class Sender{
 
-function Acknowledge($msg){
-	echo $msg;
+	function Acknowledge($msg){
+		return $msg;
+	}
 }
 ?>
