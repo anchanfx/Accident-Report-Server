@@ -12,8 +12,9 @@ function Test1_extractReportData() {
 	$accidentReport['AccidentData']['AdditionalInfo']['TrafficBlocked'] = false;
 	$accidentReport['AccidentData']['AdditionalInfo']['Message'] = 'TestData1';
 	$jsonObj = json_encode($accidentReport);
-        
-	$result = extractReportData($jsonObj);
+    
+	$jsonTest = new JSONObjectAdapter();
+	$result = $jsonTest->extractReportData($jsonObj);
         
 	echoAccidentReport($result);
 }
@@ -28,8 +29,9 @@ function Test2_extractReportData() {
 	$accidentReport['AccidentData']['AdditionalInfo']['TrafficBlocked'] = true;
 	$accidentReport['AccidentData']['AdditionalInfo']['Message'] = 'TestData2';
         $jsonObj = json_encode($accidentReport);
-        
-	$result = extractReportData($jsonObj);
+    
+    $jsonTest = new JSONObjectAdapter();
+	$result = $jsonTest->extractReportData($jsonObj);
         
 	echoAccidentReport($result);
 }
@@ -45,7 +47,8 @@ function echoAccidentReport($accidentReport) {
 }
 
 function Test_packReportAcknowledge() {
-	$result = packReportAcknowledge("TEST MESSAGE");
+	$jsonTest = new JSONObjectAdapter();
+	$result = $jsonTest->packReportAcknowledge("TEST MESSAGE");
         echo $result;
 }
 
