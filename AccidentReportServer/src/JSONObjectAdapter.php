@@ -22,10 +22,10 @@ class JSONObjectAdapter{
 		return $accidentReport;
 	}
 	
-	function packReportAcknowledge($content) {
+	function packReportAcknowledge($msg) {
 		$acknowledge = array();
 	
-		$acknowledge['AcknowledgeInfo']['Message'] = $content;
+		$acknowledge['AcknowledgeInfo']['Message'] = $msg;
 		$jsonObject = json_encode($acknowledge);
 	
 		return $jsonObject;

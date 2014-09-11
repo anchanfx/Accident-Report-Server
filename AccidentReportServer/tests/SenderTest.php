@@ -1,8 +1,8 @@
 <?php
 // FAX
-//require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\SimpleClass.php';
+//require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\Sender.php';
 // GUN
-//require_once 'C:\Users\gungii\git\Accident-Report-Server\AccidentReportServer\src\SimpleClass.php';
+//require_once 'C:\Users\gungii\git\Accident-Report-Server\AccidentReportServer\src\Sender.php';
 // DEUAN
 //
 /**
