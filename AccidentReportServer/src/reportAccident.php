@@ -6,7 +6,6 @@ require_once('JSONObjectAdapter.php');
 require_once('logger.php');
 require_once('Sender.php');
 require_once('DB.php');
-require_once ('connect.php');
 
 function run(){
 	$jsonString = file_get_contents('php://input');
@@ -19,20 +18,22 @@ function run(){
 		$accidentReport->dateTime = $timeThai->getThailandTime();
 		 
 		//save data To MySQL
-		$con = connect();
 		$db = new DB();
-		$db->insertAccidentData($con,$accidentReport);
-		$con->close();
+		$db->connect();
+		$db->insertAccidentData($accidentReport);
+		$db->closeDB();
+		
 		//save data To log file
 		$log = new logger();
 		$log->logAccidentReport($log_file,$accidentReport);
+		
 		//respond from server to android
-		$con1 = connect();
-		$msg = $db->selectMessage($con1,'0000');
+		$db->connect();
+		$msg = $db->selectMessage('0000');
 		$msgJson = $jsonObj->packReportAcknowledge($msg);
 		$Ack = new Sender();
 		echo $Ack->Acknowledge($msgJson);
-		$con1->close();
+		$db->closeDB();
 	}
 }
 
