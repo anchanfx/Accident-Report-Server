@@ -1,7 +1,7 @@
 <?php
 
 // FAX
-require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\JSONObjectAdapter.php';
+//require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\JSONObjectAdapter.php';
 // GUN
 //
 // DEUAN
@@ -70,7 +70,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$jsonObj = $this->object->packReportAcknowledge('TEST');
     	$jsonStr = (string)$jsonObj;
     	
-        $this->assertEquals('{"AcknowledgeInfo":{"Message":"TEST"}}', $jsonStr);
+        $this->assertEquals('{"AcknowledgeData":{"Message":"TEST"}}', $jsonStr);
     }
 }
 ?>

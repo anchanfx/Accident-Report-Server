@@ -25,7 +25,7 @@ class JSONObjectAdapter{
 	function packReportAcknowledge($msg) {
 		$acknowledge = array();
 	
-		$acknowledge['AcknowledgeInfo']['Message'] = $msg;
+		$acknowledge['AcknowledgeData']['Message'] = $msg;
 		$jsonObject = json_encode($acknowledge);
 	
 		return $jsonObject;
