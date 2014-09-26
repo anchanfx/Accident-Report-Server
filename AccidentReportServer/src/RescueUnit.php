@@ -1,5 +1,5 @@
 <?php
-class RescueInfo{
+class RescueUnit{
 	public $imei;
 	public $longitude;
 	public $latitude;

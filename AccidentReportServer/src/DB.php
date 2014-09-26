@@ -2,17 +2,14 @@
 require_once('AccidentReport.php');
 require_once('RescueInfo.php');
 require_once('AccidentPolling.php');
+require_once ('config.php');
 
 class DB{
 	var $con;
 
 	function connect(){
-		$host = "fdb7.runhosting.com";
-		$user = "1679495_dbacc";
-		$pass = "tot_1288";
-		$name = "1679495_dbacc";
 	
-		$conn = mysqli_connect($host, $user, $pass, $name);
+		$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 		$conn->set_charset("utf8");
 	
 		if (mysqli_connect_error()) {
