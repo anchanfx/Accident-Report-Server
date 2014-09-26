@@ -3,15 +3,16 @@ class RescueUnit{
 	public $imei;
 	public $longitude;
 	public $latitude;
-	public $status;
-	
-	function __construct($longitude,$latitude,$accidentType,$amountOfDead,
-			$amountOfInjured,$trafficBlocked,$message,$dateTime)
+	public $online;
+	public $available;
+
+	function __construct($longitude,$latitude,$online,$available)
 	{
 		$this->imei = $imei;
 		$this->longitude = $longitude;
 		$this->latitude = $latitude;
-		$this->status = $status;
+		$this->online = $online;
+		$this->available = $available;
 	}
 };
 ?>

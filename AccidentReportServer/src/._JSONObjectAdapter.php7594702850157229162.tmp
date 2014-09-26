@@ -1,7 +1,6 @@
 <?php
 require_once('AccidentReport.php');
-require_once('RescueUnit.php');
-require_once('AccidentPolling.php');
+require_once ('RescueInfo.php');
 
 class JSONObjectAdapter{
 	function extractReportData($jsonString) {
@@ -36,38 +35,11 @@ class JSONObjectAdapter{
 		return $accidentReport;
 	}
 	
-	function extractIMEI($jsonString) {
-		$jsonObj = json_decode($jsonString);
-		$imei = $jsonObj->IMEI;
-		return $imei;
-	}
-
 	function packReportAcknowledge($msg) {
 		$acknowledge = array();
 	
 		$acknowledge['AcknowledgeData']['Message'] = $msg;
 		$jsonObject = json_encode($acknowledge);
-	
-		return $jsonObject;
-	}
-
-	function packAccidentPolling($accidentPolling) {
-		$jsonObject = json_encode($accidentPolling);
-	
-		return $jsonObject;
-	}
-
-	function packAccidentData($accidentReport) {
-		$accidentData = array();
-		$accidentData['AccidentData']['Position']['Latitude'] = $accidentReport->latitude;
-		$accidentData['AccidentData']['Position']['Longitude'] = $accidentReport->longitude;
-		$accidentData['AccidentData']['AdditionalInfo']['AccidentType'] = $accidentReport->accidentType;
-		$accidentData['AccidentData']['AdditionalInfo']['AmountOfInjured'] = $accidentReport->amountOfInjured;
-		$accidentData['AccidentData']['AdditionalInfo']['AmountOfDead'] = $accidentReport->amountOfDead;
-		$accidentData['AccidentData']['AdditionalInfo']['TrafficBlocked'] = $accidentReport->trafficBlocked;
-		$accidentData['AccidentData']['AdditionalInfo']['Message'] = $accidentReport->message;
-
-		$jsonObject = json_encode($accidentData);
 	
 		return $jsonObject;
 	}

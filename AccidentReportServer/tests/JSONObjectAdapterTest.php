@@ -103,5 +103,27 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	
     	$this->assertEquals($expected, $jsonStr);
     }
+    
+    public function testPackAccidentData() {
+    	$longitude = 12;
+    	$latitude = 34;
+    	$accidentType = "TESTTYPE";
+    	$amountOfDead = 0;
+    	$amountOfInjured = 5;
+    	$trafficBlocked = 0;
+    	$message = "TESTMSG";
+    	$dateTime = "2014-09-26 00:00:00";
+    
+    	$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,$amountOfDead,
+    			$amountOfInjured,$trafficBlocked,$message,$dateTime);
+    	 
+    	$jsonObj = $this->object->packAccidentData($accidentReport);
+    	$jsonStr = (string)$jsonObj;
+    	 
+    	$expected = '{"AccidentData":{"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"}}}';
+    	 
+    	$this->assertEquals($expected, $jsonStr);
+    }
 }
 ?>
+

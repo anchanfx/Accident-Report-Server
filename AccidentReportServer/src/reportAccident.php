@@ -31,8 +31,7 @@ function run(){
 		$db->connect();
 		$msg = $db->selectMessage('0000');
 		$msgJson = $jsonObj->packReportAcknowledge($msg);
-		$Ack = new Sender();
-		$Ack->Acknowledge($msgJson);
+		echo $msgJson;
 		$db->closeDB();
 	}
 }
