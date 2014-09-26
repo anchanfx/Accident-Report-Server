@@ -51,8 +51,23 @@ class JSONObjectAdapter{
 		return $jsonObject;
 	}
 
-	function packAccidentPolling($accidentPolling) {
+	function packAccidentPolling($accidentReport) {
 		$jsonObject = json_encode($accidentPolling);
+	
+		return $jsonObject;
+	}
+
+	function packAccidentData($accidentReport) {
+		$accidentData = array();
+		$accidentData['AccidentData']['Position']['Latitude'] = $accidentReport->latitude;
+		$accidentData['AccidentData']['Position']['Longitude'] = $accidentReport->longitude;
+		$accidentData['AccidentData']['AdditionalInfo']['AccidentType'] = $accidentReport->accidentType;
+		$accidentData['AccidentData']['AdditionalInfo']['AmountOfInjured'] = $accidentReport->amountOfInjured;
+		$accidentData['AccidentData']['AdditionalInfo']['AmountOfDead'] = $accidentReport->amountOfDead;
+		$accidentData['AccidentData']['AdditionalInfo']['TrafficBlocked'] = $accidentReport->trafficBlocked;
+		$accidentData['AccidentData']['AdditionalInfo']['Message'] = $accidentReport->message;
+
+		$jsonObject = json_encode($accidentData);
 	
 		return $jsonObject;
 	}

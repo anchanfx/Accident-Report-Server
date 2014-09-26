@@ -20,10 +20,11 @@ function run(){
      		$data = $accidentPollings[0];
 
      		$db->connect();
+     		$accidentReport = $db->selectAccidentReport($data->AccidentID);
      		$db->updatePullInAccidentPolling($data->DateTime, $data->IMEI, $data->AccidentID, 1);
      		$db->closeDB();
 
-     		echo $jsonAdapter->packAccidentPolling($data);
+     		echo $jsonAdapter->packAccidentData($accidentReport);
 		} else {
 			echo "";
 		}

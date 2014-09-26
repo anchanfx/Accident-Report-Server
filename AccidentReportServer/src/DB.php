@@ -30,12 +30,31 @@ class DB{
 		$stmt = $conn->prepare("SELECT description FROM Message WHERE code = ?");
 		$stmt->bind_param("s",$code);
 		$stmt->execute();
-		$stmt->bind_result($result);
+		$stmt->bind_result($id, $longitude, $latitude, $accidentType, $amountOfDead, $amountOfInjured);
 		$stmt->fetch();
 		$stmt->close();
 		return $result;
 	}
 	
+	function selectAccidentReport($id)
+	{
+		$conn = $this->con;
+		$stmt = $conn->prepare("SELECT * FROM AccidentReport WHERE ID = ?");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$stmt->bind_result($id, $longitude,$latitude,$accidentType,
+	                        $amountOfDead,$amountOfInjured,
+	                        $trafficBlocked,$message,$dateTime, $resolve);
+
+		$stmt->fetch();
+		$stmt->close();
+
+		$result = new AccidentReport($longitude,$latitude,$accidentType,
+                    $amountOfDead,$amountOfInjured,
+					$trafficBlocked,$message,$dateTime);
+		return $result;
+	}
+
 	function insertAccidentData($data){
 		$conn = $this->con;
 		$query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
