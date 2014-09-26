@@ -1,7 +1,7 @@
 <?php
 
 // FAX
-//require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\JSONObjectAdapter.php';
+require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\JSONObjectAdapter.php';
 // GUN
 //
 // DEUAN
@@ -61,7 +61,22 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals(0, $result->trafficBlocked);
     	$this->assertEquals($accidentReport['AccidentData']['AdditionalInfo']['Message'], $result->message);
     }
-
+	
+    public function testExtractRescueInfo() {
+    	
+    	$this->assertEquals("A", "");
+    }
+    
+    public function testExtractIMEI() {
+    	$imeiString = "123456789";
+    	
+    	$imei = array();
+    	$imei['IMEI'] = $imeiString;
+    	$jsonObj = json_encode($imei);
+    	$result = $this->object->extractIMEI($jsonObj);
+    	$this->assertEquals($result, $imeiString);
+    }
+    
     /**
      * @covers JSONObjectAdapter::packReportAcknowledge
      */
@@ -71,6 +86,22 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$jsonStr = (string)$jsonObj;
     	
         $this->assertEquals('{"AcknowledgeData":{"Message":"TEST"}}', $jsonStr);
+    }
+    
+    public function testPackAccidentPolling() {
+    	$dateTime = "2014-09-26 00:00:00";
+    	$imei = "123456789";
+    	$accidentID = 1;
+    	$pull = 0;
+    	
+    	$accidentPolling = new AccidentPolling($dateTime, $imei, $accidentID, $pull);
+    	$jsonObj = $this->object->packAccidentPolling($accidentPolling);
+    	$jsonStr = (string)$jsonObj;
+    	
+    	$expected = '{"DateTime":"'.$dateTime.'","IMEI":"'.$imei.'","AccidentID":'.$accidentID.',"Pull":'.$pull.'}';
+    	
+    	
+    	$this->assertEquals($expected, $jsonStr);
     }
 }
 ?>
