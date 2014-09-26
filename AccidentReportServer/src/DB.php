@@ -1,7 +1,11 @@
 <?php
 require_once('AccidentReport.php');
+require_once('RescueInfo.php');
+require_once('AccidentPolling.php');
+
 class DB{
 	var $con;
+
 	function connect(){
 		$host = "fdb7.runhosting.com";
 		$user = "1679495_dbacc";
@@ -44,6 +48,52 @@ class DB{
 				$data->trafficBlocked,$data->message,$data->dateTime);
 		$stmt->execute();
 		$stmt->close();
+	}
+	
+	function rescueUpdate($info){
+		$conn = $this->con;
+		$query="INSERT INTO RescueUnit (IMEI,Longitude,Latitude,Online,Available)
+		VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("siiii",
+				$info->imei,$info->longitude,$info->latitude,$info->status,$info->available);
+		$stmt->execute();
+		$stmt->close();
+	}
+        
+	function selectAccidentPollingThatsNotYetPulled($imei) {
+		$accidentPollings = array();
+		$queryString = "SELECT * 
+						FROM AccidentPolling 
+						WHERE IMEI=? AND Pull=0
+						ORDER BY DateTime ASC";
+		$con = $this->con;
+
+		$stmt = $con->prepare($queryString);
+		$stmt->bind_param("s", $imei);
+		$stmt->execute();
+
+		$stmt->bind_result($dateTime, $imei, $accidentID, $pull);
+
+		while ($stmt->fetch()) { 
+			$singleData = new AccidentPolling($dateTime, $imei, $accidentID, $pull);
+			array_push($accidentPollings, $singleData);
+		}
+
+		$stmt->close();
+
+		return $accidentPollings;
+	}
+
+	function updatePullInAccidentPolling($dateTime, $imei, $accidentID, $pull) {
+		$con = $this->con;
+		$queryString = "UPDATE AccidentPolling SET Pull=? 
+						WHERE DateTime=? AND IMEI=? AND AccidentID=?";
+						
+		$stmt = $con->prepare($queryString);
+		$stmt->bind_param("issi", $pull, $dateTime, $imei, $accidentID);
+        $stmt->execute();
+        $stmt->close();
 	}
 }
 ?>
