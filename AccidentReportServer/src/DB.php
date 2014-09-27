@@ -80,6 +80,21 @@
 			$stmt->close();
 		}
 
+		function insertAccidentPolling($data){
+			$conn = $this->con;
+			$query="INSERT INTO AccidentPolling 
+			(IMEI, AccidentID, DateTime, Pull)
+			VALUES (?,?,?,?)
+			ON DUPLICATE KEY UPDATE DateTime=?, Pull=?";
+			$stmt = $conn->prepare($query);
+			$stmt->bind_param("sisisi",
+					$data->IMEI, $data->AccidentID, 
+					$data->DateTime, $data->Pull,
+					$data->DateTime, $data->Pull);
+			$stmt->execute();
+			$stmt->close();
+		}
+
 		function rescueUpdate($info){
 			$conn = $this->con;
 			$query="INSERT INTO RescueUnit (IMEI,Longitude,Latitude,Online,Available)
