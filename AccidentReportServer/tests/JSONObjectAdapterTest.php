@@ -78,7 +78,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     }
     
     public function testExtractMissionReport() {
-    	/*$imei = '123456789';
+    	$imei = '123456789';
     	$accidentID = 12;
     	$rescueState = 0;
     	$dateTime = '0';
@@ -97,7 +97,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals($accidentID, $missionReport->AccidentID);
     	$this->assertEquals($rescueState, $missionReport->RescueState);
     	$this->assertEquals($dateTime, $missionReport->DateTime);
-    	$this->assertEquals($message, $missionReport->Message);*/
+    	$this->assertEquals($message, $missionReport->Message);
     }
     /**
      * @covers JSONObjectAdapter::packReportAcknowledge
@@ -127,6 +127,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     }
     
     public function testPackAccidentData() {
+    	$id = 7;
     	$longitude = 12;
     	$latitude = 34;
     	$accidentType = "TESTTYPE";
@@ -139,10 +140,10 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,$amountOfDead,
     			$amountOfInjured,$trafficBlocked,$message,$dateTime);
     	 
-    	$jsonObj = $this->object->packAccidentData($accidentReport);
+    	$jsonObj = $this->object->packAccidentData($id, $accidentReport);
     	$jsonStr = (string)$jsonObj;
     	 
-    	$expected = '{"AccidentData":{"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"}}}';
+    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"}}}';
     	 
     	$this->assertEquals($expected, $jsonStr);
     }
