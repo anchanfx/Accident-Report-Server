@@ -69,10 +69,12 @@
 			$conn = $this->con;
 			$query="INSERT INTO MissionReport 
 			(IMEI,AccidentID,RescueState,DateTime,Message)
-			VALUES (?,?,?,?,?)";
+			VALUES (?,?,?,?,?)
+			ON DUPLICATE KEY UPDATE DateTime=?, Message=?";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("siiss",
+			$stmt->bind_param("siissss",
 					$data->IMEI,$data->AccidentID,$data->RescueState,
+					$data->DateTime,$data->Message,
 					$data->DateTime,$data->Message);
 			$stmt->execute();
 			$stmt->close();

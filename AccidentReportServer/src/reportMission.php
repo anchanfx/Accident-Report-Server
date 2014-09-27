@@ -10,17 +10,15 @@
 
 		if(!empty($jsonString))
 		{
+			$db = new DB();
 			$jsonObj = new JSONObjectAdapter();
 			$timeThai = new Time();
 			$jsonAdapter = new JSONObjectAdapter();
 			$missionReport = $jsonAdapter->extractMissionReport($jsonString);
 			$missionReport->DateTime = $timeThai->getThailandTime();
-			$db = new DB();
+			
 			$db->connect();
 			$db->insertMissionReport($missionReport);
-			$db->closeDB();
-
-			$db->connect();
 			$msg = $db->selectMessage('0000');
 			$db->closeDB();
 

@@ -3,6 +3,7 @@ require_once('AccidentReport.php');
 require_once('RescueUnit.php');
 require_once('AccidentPolling.php');
 require_once ('MissionReport.php');
+require_once('JSONKeys.php');
 
 class JSONObjectAdapter{
 	function extractReportData($jsonString) {
@@ -59,7 +60,7 @@ class JSONObjectAdapter{
 	function packReportAcknowledge($msg) {
 		$acknowledge = array();
 	
-		$acknowledge['AcknowledgeData']['Message'] = $msg;
+		$acknowledge[JSON_ACKNOWLEDGE_DATA][MESSAGE] = $msg;
 		$jsonObject = json_encode($acknowledge);
 	
 		return $jsonObject;
@@ -73,14 +74,14 @@ class JSONObjectAdapter{
 
 	function packAccidentData($id, $accidentReport) {
 		$accidentData = array();
-		$accidentData['AccidentData']['AccidentID'] = $id;
-		$accidentData['AccidentData']['Position']['Latitude'] = $accidentReport->latitude;
-		$accidentData['AccidentData']['Position']['Longitude'] = $accidentReport->longitude;
-		$accidentData['AccidentData']['AdditionalInfo']['AccidentType'] = $accidentReport->accidentType;
-		$accidentData['AccidentData']['AdditionalInfo']['AmountOfInjured'] = $accidentReport->amountOfInjured;
-		$accidentData['AccidentData']['AdditionalInfo']['AmountOfDead'] = $accidentReport->amountOfDead;
-		$accidentData['AccidentData']['AdditionalInfo']['TrafficBlocked'] = $accidentReport->trafficBlocked;
-		$accidentData['AccidentData']['AdditionalInfo']['Message'] = $accidentReport->message;
+		$accidentData[JSON_ACCIDENT_DATA][ACCIDENT_ID] = $id;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_POSITION][LATITUDE] = $accidentReport->latitude;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_POSITION][LONGITUDE] = $accidentReport->longitude;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][ACCIDENT_TYPE] = $accidentReport->accidentType;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][AMOUNT_OF_INJURED] = $accidentReport->amountOfInjured;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][AMOUNT_OF_DEAD] = $accidentReport->amountOfDead;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][TRAFFIC_BLOCKED] = $accidentReport->trafficBlocked;
+		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][MESSAGE] = $accidentReport->message;
 
 		$jsonObject = json_encode($accidentData);
 	
