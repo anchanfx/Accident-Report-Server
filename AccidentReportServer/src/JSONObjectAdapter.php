@@ -71,8 +71,9 @@ class JSONObjectAdapter{
 		return $jsonObject;
 	}
 
-	function packAccidentData($accidentReport) {
+	function packAccidentData($id, $accidentReport) {
 		$accidentData = array();
+		$accidentData['AccidentData']['AccidentID'] = $id;
 		$accidentData['AccidentData']['Position']['Latitude'] = $accidentReport->latitude;
 		$accidentData['AccidentData']['Position']['Longitude'] = $accidentReport->longitude;
 		$accidentData['AccidentData']['AdditionalInfo']['AccidentType'] = $accidentReport->accidentType;

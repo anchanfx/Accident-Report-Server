@@ -24,7 +24,7 @@ function run(){
      		$db->updatePullInAccidentPolling($data->DateTime, $data->IMEI, $data->AccidentID, 1);
      		$db->closeDB();
 
-     		echo $jsonAdapter->packAccidentData($accidentReport);
+     		echo $jsonAdapter->packAccidentData($data->AccidentID, $accidentReport);
 		} else {
 			echo "";
 		}
