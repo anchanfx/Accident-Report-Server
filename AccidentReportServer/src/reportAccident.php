@@ -4,7 +4,6 @@ require_once('AccidentReport.php');
 require_once('Time.php');
 require_once('JSONObjectAdapter.php');
 require_once('logger.php');
-require_once('Sender.php');
 require_once('DB.php');
 
 function run(){

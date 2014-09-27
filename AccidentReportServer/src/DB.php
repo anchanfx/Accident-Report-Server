@@ -65,6 +65,19 @@
 			$stmt->close();
 		}
 		
+		function insertMissionReport($data){
+			$conn = $this->con;
+			$query="INSERT INTO MissionReport 
+			(IMEI,AccidentID,RescueState,DateTime,Message)
+			VALUES (?,?,?,?,?)";
+			$stmt = $conn->prepare($query);
+			$stmt->bind_param("siiss",
+					$data->IMEI,$data->AccidentID,$data->RescueState,
+					$data->DateTime,$data->Message);
+			$stmt->execute();
+			$stmt->close();
+		}
+
 		function rescueUpdate($info){
 			$conn = $this->con;
 			$query="INSERT INTO RescueUnit (IMEI,Longitude,Latitude,Online,Available)

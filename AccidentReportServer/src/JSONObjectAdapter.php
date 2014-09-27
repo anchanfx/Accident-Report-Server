@@ -2,6 +2,7 @@
 require_once('AccidentReport.php');
 require_once('RescueUnit.php');
 require_once('AccidentPolling.php');
+require_once ('MissionReport.php');
 
 class JSONObjectAdapter{
 	function extractReportData($jsonString) {
@@ -40,6 +41,19 @@ class JSONObjectAdapter{
 		$jsonObj = json_decode($jsonString);
 		$imei = $jsonObj->IMEI;
 		return $imei;
+	}
+
+	function extractMissionReport($jsonString) {
+		$jsonObj = json_decode($jsonString);
+		$imei = $jsonObj->MissionReport->IMEI;
+		$accidentID = $jsonObj->MissionReport->AccidentID;
+		$rescueState = $jsonObj->MissionReport->RescueState;
+		$dateTime = '0';
+		$message = $jsonObj->MissionReport->Message;
+
+		$missionReport = new MissionReport($imei, $accidentID,
+			$rescueState, $dateTime, $message);
+		return $missionReport;
 	}
 
 	function packReportAcknowledge($msg) {

@@ -77,6 +77,28 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals($result, $imeiString);
     }
     
+    public function testExtractMissionReport() {
+    	/*$imei = '123456789';
+    	$accidentID = 12;
+    	$rescueState = 0;
+    	$dateTime = '0';
+    	$message = 'TESTMSG';
+    	
+    	$json = array();
+    	$json['MissionReport']['IMEI'] = $imei;
+    	$json['MissionReport']['AccidentID'] = $accidentID;
+    	$json['MissionReport']['RescueState'] = $rescueState;
+    	$json['MissionReport']['Message'] = $message;
+    	$jsonObj = json_encode($json);
+    	
+    	$missionReport =  $this->object->extractMissionReport($jsonObj);
+    	
+    	$this->assertEquals($imei, $missionReport->IMEI);
+    	$this->assertEquals($accidentID, $missionReport->AccidentID);
+    	$this->assertEquals($rescueState, $missionReport->RescueState);
+    	$this->assertEquals($dateTime, $missionReport->DateTime);
+    	$this->assertEquals($message, $missionReport->Message);*/
+    }
     /**
      * @covers JSONObjectAdapter::packReportAcknowledge
      */
