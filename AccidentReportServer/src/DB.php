@@ -26,7 +26,7 @@
 			$stmt = $conn->prepare("SELECT description FROM Message WHERE code = ?");
 			$stmt->bind_param("s",$code);
 			$stmt->execute();
-			$stmt->bind_result($id, $longitude, $latitude, $accidentType, $amountOfDead, $amountOfInjured);
+			$stmt->bind_result($result);
 			$stmt->fetch();
 			$stmt->close();
 			return $result;
