@@ -82,7 +82,8 @@ class JSONObjectAdapter{
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][AMOUNT_OF_DEAD] = $accidentReport->amountOfDead;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][TRAFFIC_BLOCKED] = $accidentReport->trafficBlocked;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][MESSAGE] = $accidentReport->message;
-
+		$accidentData[JSON_ACCIDENT_DATA][DATE_TIME] = $accidentReport->dateTime;
+		
 		$jsonObject = json_encode($accidentData);
 	
 		return $jsonObject;

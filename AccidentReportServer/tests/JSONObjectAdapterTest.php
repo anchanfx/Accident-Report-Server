@@ -1,7 +1,7 @@
 <?php
 
 // FAX
-//require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\JSONObjectAdapter.php';
+require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Server\AccidentReportServer\src\JSONObjectAdapter.php';
 // GUN
 //
 // DEUAN
@@ -143,7 +143,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$jsonObj = $this->object->packAccidentData($id, $accidentReport);
     	$jsonStr = (string)$jsonObj;
     	 
-    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"}}}';
+    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":"'.$dateTime.'"}}';
     	 
     	$this->assertEquals($expected, $jsonStr);
     }
