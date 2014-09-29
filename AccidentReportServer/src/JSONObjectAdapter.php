@@ -4,6 +4,7 @@ require_once('RescueUnit.php');
 require_once('AccidentPolling.php');
 require_once ('MissionReport.php');
 require_once('JSONKeys.php');
+require_once('Time.php');
 
 class JSONObjectAdapter{
 	function extractReportData($jsonString) {
@@ -73,6 +74,9 @@ class JSONObjectAdapter{
 	}
 
 	function packAccidentData($id, $accidentReport) {
+		$time = new Time();
+		$timeStamp = $time->getTimeStamp($accidentReport->dateTime);
+
 		$accidentData = array();
 		$accidentData[JSON_ACCIDENT_DATA][ACCIDENT_ID] = $id;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_POSITION][LATITUDE] = $accidentReport->latitude;
@@ -82,8 +86,8 @@ class JSONObjectAdapter{
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][AMOUNT_OF_DEAD] = $accidentReport->amountOfDead;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][TRAFFIC_BLOCKED] = $accidentReport->trafficBlocked;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][MESSAGE] = $accidentReport->message;
-		$accidentData[JSON_ACCIDENT_DATA][DATE_TIME] = $accidentReport->dateTime;
-		
+		$accidentData[JSON_ACCIDENT_DATA][DATE_TIME] = $timeStamp;
+
 		$jsonObject = json_encode($accidentData);
 	
 		return $jsonObject;
