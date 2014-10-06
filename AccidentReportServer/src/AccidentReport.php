@@ -25,6 +25,9 @@ class AccidentReport{
 		$this->trafficBlocked = $trafficBlocked;
 		$this->message = $message;
 		$this->dateTime = $dateTime;
+		
+		$this->serverDateTime = 0;
+		$this->resolve = 0;
 	}
 };
 ?>
