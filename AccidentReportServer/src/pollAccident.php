@@ -17,14 +17,14 @@ function run(){
 		$db->closeDB();
 
 		if (count($accidentPollings) >= 1) {
-     		$data = $accidentPollings[0];
+     		$accidentPolling = $accidentPollings[0];
 
      		$db->connect();
-     		$accidentReport = $db->selectAccidentReport($data->AccidentID);
-     		$db->updatePullInAccidentPolling($data->DateTime, 1);
+     		$accidentReport = $db->selectAccidentReport($accidentPolling->AccidentID);
+     		$db->updatePullInAccidentPolling($accidentPolling, 1);
      		$db->closeDB();
 
-     		echo $jsonAdapter->packAccidentData($data->AccidentID, $accidentReport);
+     		echo $jsonAdapter->packAccidentData($accidentPolling, $accidentReport);
 		} else {
 			echo "";
 		}

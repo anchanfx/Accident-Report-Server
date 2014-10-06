@@ -134,8 +134,8 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     
     public function testPackAccidentData() {
     	$time = new Time();
-    	
-    	$id = 7;
+    	$accidentPolling = new AccidentPolling("2014-09-26 07:07:07", 1, 7, 1);
+    	$assignTimeStamp = $time->getTimeStamp($accidentPolling->DateTime);
     	$longitude = 12;
     	$latitude = 34;
     	$accidentType = "TESTTYPE";
@@ -154,10 +154,10 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$accidentReport->serverDateTime = $serverDateTime;
     	$accidentReport->resolve = $resolve;
     	
-    	$jsonObj = $this->object->packAccidentData($id, $accidentReport);
+    	$jsonObj = $this->object->packAccidentData($accidentPolling, $accidentReport);
     	$jsonStr = (string)$jsonObj;
     	 
-    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":'.$timeStamp.',"ServerDateTime":'.$serverTimeStamp.',"Resolve":'.$resolve.'}}';
+    	$expected = '{"AccidentData":{"AccidentID":'.$accidentPolling->AccidentID.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":'.$timeStamp.',"ServerDateTime":'.$serverTimeStamp.',"Resolve":'.$resolve.'},"AssignDateTime":'.$assignTimeStamp.'}';
     	 
     	$this->assertEquals($expected, $jsonStr);
     }

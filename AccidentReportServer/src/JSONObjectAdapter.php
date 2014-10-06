@@ -73,13 +73,14 @@ class JSONObjectAdapter{
 		return $jsonObject;
 	}
 
-	function packAccidentData($id, $accidentReport) {
+	function packAccidentData($accidentPolling, $accidentReport) {
 		$time = new Time();
 		$timeStamp = $time->getTimeStamp($accidentReport->dateTime);
 		$serverTimeStamp = $time->getTimeStamp($accidentReport->serverDateTime);
-
+		$assignTimeStamp = $time->getTimeStamp($accidentPolling->DateTime);
+		
 		$accidentData = array();
-		$accidentData[JSON_ACCIDENT_DATA][ACCIDENT_ID] = $id;
+		$accidentData[JSON_ACCIDENT_DATA][ACCIDENT_ID] = $accidentPolling->AccidentID;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_POSITION][LATITUDE] = $accidentReport->latitude;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_POSITION][LONGITUDE] = $accidentReport->longitude;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][ACCIDENT_TYPE] = $accidentReport->accidentType;
@@ -90,6 +91,7 @@ class JSONObjectAdapter{
 		$accidentData[JSON_ACCIDENT_DATA][DATE_TIME] = $timeStamp;
 		$accidentData[JSON_ACCIDENT_DATA][SERVER_DATE_TIME] = $serverTimeStamp;
 		$accidentData[JSON_ACCIDENT_DATA][RESOLVE] = $accidentReport->resolve;
+		$accidentData[ASSIGN_DATE_TIME] = $assignTimeStamp;
 
 		$jsonObject = json_encode($accidentData);
 	

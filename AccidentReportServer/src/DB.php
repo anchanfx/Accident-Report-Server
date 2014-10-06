@@ -131,13 +131,15 @@
 			return $accidentPollings;
 		}
 	
-		function updatePullInAccidentPolling($dateTime, $pull) {
+		function updatePullInAccidentPolling($accidentPolling, $pull) {
 			$con = $this->con;
 			$queryString = "UPDATE AccidentPolling SET Pull=? 
-							WHERE DateTime=?";
+							WHERE DateTime=? AND IMEI=? AND AccidentID=?";
 							
 			$stmt = $con->prepare($queryString);
-			$stmt->bind_param("is", $pull, $dateTime);
+			$stmt->bind_param("issi", $pull, 
+				$accidentPolling->DateTime, $accidentPolling->IMEI, 
+				$accidentPolling->AccidentID);
 	        $stmt->execute();
 	        $stmt->close();
 		}
