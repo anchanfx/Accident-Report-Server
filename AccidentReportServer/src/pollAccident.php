@@ -21,7 +21,7 @@ function run(){
 
      		$db->connect();
      		$accidentReport = $db->selectAccidentReport($data->AccidentID);
-     		$db->updatePullInAccidentPolling($data->DateTime, $data->IMEI, $data->AccidentID, 1);
+     		$db->updatePullInAccidentPolling($data->DateTime, 1);
      		$db->closeDB();
 
      		echo $jsonAdapter->packAccidentData($data->AccidentID, $accidentReport);

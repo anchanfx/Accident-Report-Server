@@ -50,7 +50,7 @@ class JSONObjectAdapter{
 		$imei = $jsonObj->MissionReport->IMEI;
 		$accidentID = $jsonObj->MissionReport->AccidentID;
 		$rescueState = $jsonObj->MissionReport->RescueState;
-		$dateTime = '0';
+		$dateTime = date(TIME_FORMAT, $jsonObj->MissionReport->DateTime);
 		$message = $jsonObj->MissionReport->Message;
 
 		$missionReport = new MissionReport($imei, $accidentID,
@@ -76,6 +76,7 @@ class JSONObjectAdapter{
 	function packAccidentData($id, $accidentReport) {
 		$time = new Time();
 		$timeStamp = $time->getTimeStamp($accidentReport->dateTime);
+		$serverTimeStamp = $time->getTimeStamp($accidentReport->serverDateTime);
 
 		$accidentData = array();
 		$accidentData[JSON_ACCIDENT_DATA][ACCIDENT_ID] = $id;
@@ -87,6 +88,8 @@ class JSONObjectAdapter{
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][TRAFFIC_BLOCKED] = $accidentReport->trafficBlocked;
 		$accidentData[JSON_ACCIDENT_DATA][JSON_ADDITIONAL_INFO][MESSAGE] = $accidentReport->message;
 		$accidentData[JSON_ACCIDENT_DATA][DATE_TIME] = $timeStamp;
+		$accidentData[JSON_ACCIDENT_DATA][SERVER_DATE_TIME] = $serverTimeStamp;
+		$accidentData[JSON_ACCIDENT_DATA][RESOLVE] = $accidentReport->resolve;
 
 		$jsonObject = json_encode($accidentData);
 	

@@ -15,7 +15,7 @@
 			$timeThai = new Time();
 			$jsonAdapter = new JSONObjectAdapter();
 			$missionReport = $jsonAdapter->extractMissionReport($jsonString);
-			$missionReport->DateTime = $timeThai->getThailandTime();
+			$missionReport->ServerDateTime = $timeThai->getThailandTime();
 			
 			$db->connect();
 			$db->insertMissionReport($missionReport);

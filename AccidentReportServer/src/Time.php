@@ -1,11 +1,12 @@
 <?php
 define('TIME_FORMAT', 'Y-m-d H:i:s');
+define('TIME_ZONE', 'Asia/Bangkok');
+date_default_timezone_set(TIME_ZONE);
 
 class Time{
 
 	function getThailandTime() {
 		$date = new DateTime();
-		$date->setTimezone(new DateTimeZone('Asia/Bangkok'));
 		$dateTime = $date->format(TIME_FORMAT);
 	
 		return $dateTime;

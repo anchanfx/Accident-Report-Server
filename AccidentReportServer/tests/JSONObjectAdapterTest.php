@@ -85,13 +85,15 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$imei = '123456789';
     	$accidentID = 12;
     	$rescueState = 0;
-    	$dateTime = '0';
+    	$dateTime = date(TIME_FORMAT, 1411689600);
+    	$timeStamp = 1411689600;
     	$message = 'TESTMSG';
     	
     	$json = array();
     	$json['MissionReport']['IMEI'] = $imei;
     	$json['MissionReport']['AccidentID'] = $accidentID;
     	$json['MissionReport']['RescueState'] = $rescueState;
+    	$json['MissionReport']['DateTime'] = $timeStamp;
     	$json['MissionReport']['Message'] = $message;
     	$jsonObj = json_encode($json);
     	
@@ -131,6 +133,8 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     }
     
     public function testPackAccidentData() {
+    	$time = new Time();
+    	
     	$id = 7;
     	$longitude = 12;
     	$latitude = 34;
@@ -140,16 +144,20 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$trafficBlocked = 0;
     	$message = "TESTMSG";
     	$dateTime = "2014-09-26 00:00:00";
-    	$time = new Time();
+    	$serverDateTime = "2014-09-26 01:01:01";
     	$timeStamp = $time->getTimeStamp($dateTime);
+    	$serverTimeStamp = $time->getTimeStamp($serverDateTime);
+    	$resolve = 0;
     	
     	$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,$amountOfDead,
     			$amountOfInjured,$trafficBlocked,$message,$dateTime);
-    	 
+    	$accidentReport->serverDateTime = $serverDateTime;
+    	$accidentReport->resolve = $resolve;
+    	
     	$jsonObj = $this->object->packAccidentData($id, $accidentReport);
     	$jsonStr = (string)$jsonObj;
     	 
-    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":'.$timeStamp.'}}';
+    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":'.$timeStamp.',"ServerDateTime":'.$serverTimeStamp.',"Resolve":'.$resolve.'}}';
     	 
     	$this->assertEquals($expected, $jsonStr);
     }

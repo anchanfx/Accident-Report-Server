@@ -72,13 +72,12 @@
 		function insertMissionReport($data){
 			$conn = $this->con;
 			$query="INSERT INTO MissionReport 
-			(IMEI,AccidentID,RescueState,DateTime,Message)
-			VALUES (?,?,?,?,?)
-			ON DUPLICATE KEY UPDATE DateTime=?, Message=?";
+			(ServerDateTime, IMEI,AccidentID,RescueState,DateTime,Message)
+			VALUES (?,?,?,?,?,?)";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("siissss",
-					$data->IMEI,$data->AccidentID,$data->RescueState,
-					$data->DateTime,$data->Message,
+			$stmt->bind_param("ssiiss", 
+					$data->ServerDateTime,
+					$data->IMEI, $data->AccidentID, $data->RescueState,
 					$data->DateTime,$data->Message);
 			$stmt->execute();
 			$stmt->close();
@@ -87,14 +86,12 @@
 		function insertAccidentPolling($data){
 			$conn = $this->con;
 			$query="INSERT INTO AccidentPolling 
-			(IMEI, AccidentID, DateTime, Pull)
-			VALUES (?,?,?,?)
-			ON DUPLICATE KEY UPDATE DateTime=?, Pull=?";
+			(DateTime, IMEI, AccidentID, Pull)
+			VALUES (?,?,?,?)";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("sisisi",
-					$data->IMEI, $data->AccidentID, 
-					$data->DateTime, $data->Pull,
-					$data->DateTime, $data->Pull);
+			$stmt->bind_param("ssii",
+					$data->DateTime, $data->IMEI, 
+					$data->AccidentID, $data->Pull);
 			$stmt->execute();
 			$stmt->close();
 		}
@@ -134,13 +131,13 @@
 			return $accidentPollings;
 		}
 	
-		function updatePullInAccidentPolling($dateTime, $imei, $accidentID, $pull) {
+		function updatePullInAccidentPolling($dateTime, $pull) {
 			$con = $this->con;
 			$queryString = "UPDATE AccidentPolling SET Pull=? 
-							WHERE DateTime=? AND IMEI=? AND AccidentID=?";
+							WHERE DateTime=?";
 							
 			$stmt = $con->prepare($queryString);
-			$stmt->bind_param("issi", $pull, $dateTime, $imei, $accidentID);
+			$stmt->bind_param("is", $pull, $dateTime);
 	        $stmt->execute();
 	        $stmt->close();
 		}

@@ -17,6 +17,8 @@
 	define("TRAFFIC_BLOCKED", 	"TrafficBlocked");
 	define("MESSAGE", 			"Message");
 	define("DATE_TIME", 		"DateTime");
+	define("SERVER_DATE_TIME", 	"ServerDateTime");
+	define("RESOLVE",			"Resolve");
 	define("STATUS", 			"Status");
 	define("IMEI", 				"IMEI");
 	define("RESCUE_STATE", 		"RescueState");
