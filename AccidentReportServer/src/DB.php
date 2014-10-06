@@ -40,7 +40,7 @@
 			$stmt->execute();
 			$stmt->bind_result($id, $longitude,$latitude,$accidentType,
 		                        $amountOfDead,$amountOfInjured,
-		                        $trafficBlocked,$message,$dateTime, $resolve);
+		                        $trafficBlocked,$message,$dateTime, $serverDateTime, $resolve);
 	
 			$stmt->fetch();
 			$stmt->close();
@@ -48,19 +48,23 @@
 			$result = new AccidentReport($longitude,$latitude,$accidentType,
 	                    $amountOfDead,$amountOfInjured,
 						$trafficBlocked,$message,$dateTime);
+			$result->serverDateTime = $serverDateTime;
+			$result->resolve = $resolve;
+			
 			return $result;
 		}
 	
 		function insertAccidentData($data){
 			$conn = $this->con;
 			$query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
-			AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime)
-			VALUES (?,?,?,?,?,?,?,?)";
+			AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime,ServerDateTime,Resolve)
+			VALUES (?,?,?,?,?,?,?,?,?,?)";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("ddsiiiss",
+			$stmt->bind_param("ddsiiisssi",
 					$data->longitude,$data->latitude,$data->accidentType,
 					$data->amountOfDead,$data->amountOfInjured,
-					$data->trafficBlocked,$data->message,$data->dateTime);
+					$data->trafficBlocked,$data->message,$data->dateTime,
+					$data->serverDateTime,$data->resolve);
 			$stmt->execute();
 			$stmt->close();
 		}

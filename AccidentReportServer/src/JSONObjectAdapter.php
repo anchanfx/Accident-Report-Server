@@ -16,13 +16,13 @@ class JSONObjectAdapter{
 		$amountOfDead = $jsonObj->AccidentData->AdditionalInfo->AmountOfDead;
 		$trafficBlocked = $jsonObj->AccidentData->AdditionalInfo->TrafficBlocked;
 		$message = $jsonObj->AccidentData->AdditionalInfo->Message;
-	
+		$dateTime = date(TIME_FORMAT, $jsonObj->DateTime);
 	
 		if(empty($trafficBlocked)) $trafficBlocked = 0;
 		else $trafficBlocked = 1;
 	
 		$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,
-				$amountOfDead,$amountOfInjured,$trafficBlocked,$message,'');
+				$amountOfDead,$amountOfInjured,$trafficBlocked,$message,$dateTime);
 	
 		return $accidentReport;
 	}

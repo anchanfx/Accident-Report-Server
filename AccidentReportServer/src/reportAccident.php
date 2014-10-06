@@ -12,9 +12,10 @@ function run(){
 
 	if(!empty($jsonString)) {
 		$jsonObj = new JSONObjectAdapter();
-		$timeThai = new Time();
+		$time = new Time();
 		$accidentReport = $jsonObj->extractReportData($jsonString);
-		$accidentReport->dateTime = $timeThai->getThailandTime();
+		$accidentReport->serverDateTime = $time->getThailandTime();
+		$accidentReport->resolve = 0;
 		 
 		//save data To MySQL
 		$db = new DB();

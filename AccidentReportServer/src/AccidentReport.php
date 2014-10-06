@@ -10,8 +10,12 @@ class AccidentReport{
 	public $message;
 	public $dateTime;
 
+	//Server Side
+	public $serverDateTime;
+	public $resolve;
+
 	function __construct($longitude,$latitude,$accidentType,$amountOfDead,
-			$amountOfInjured,$trafficBlocked,$message,$dateTime)
+			$amountOfInjured, $trafficBlocked, $message, $dateTime)
 	{
 		$this->longitude = $longitude;
 		$this->latitude = $latitude;

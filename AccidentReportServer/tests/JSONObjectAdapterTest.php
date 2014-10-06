@@ -48,10 +48,12 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$accidentReport['AccidentData']['AdditionalInfo']['AmountOfDead'] = 0;
     	$accidentReport['AccidentData']['AdditionalInfo']['TrafficBlocked'] = false;
     	$accidentReport['AccidentData']['AdditionalInfo']['Message'] = 'TestData1';
+    	$accidentReport['DateTime'] = 1411689600;
+    	$dateTime = date(TIME_FORMAT, $accidentReport['DateTime']);
     	$jsonObj = json_encode($accidentReport);
     	$result = $this->object->extractReportData($jsonObj);
     
-    	//$expected = '{"AccidentData":{"Position":{"Latitude":5.432,"Longitude":2.435 },"AdditionalInfo":{"AccidentType":"Test1","AmountOfInjured":100,"AmountOfDead":0,"TrafficBlocked":false,"Message":"TestData1"}}}';
+    	//$expected = '{"AccidentData":{"Position":{"Latitude":5.432,"Longitude":2.435 },"AdditionalInfo":{"AccidentType":"Test1","AmountOfInjured":100,"AmountOfDead":0,"TrafficBlocked":false,"Message":"TestData1"}}, "DateTime":1411689600}';
     
     	$this->assertEquals($accidentReport['AccidentData']['Position']['Latitude'], $result->latitude);
     	$this->assertEquals($accidentReport['AccidentData']['Position']['Longitude'], $result->longitude);
@@ -60,6 +62,8 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals($accidentReport['AccidentData']['AdditionalInfo']['AmountOfDead'], $result->amountOfDead);
     	$this->assertEquals(0, $result->trafficBlocked);
     	$this->assertEquals($accidentReport['AccidentData']['AdditionalInfo']['Message'], $result->message);
+    	$this->assertEquals($dateTime, $result->dateTime);
+    	
     }
 	
     public function testExtractRescueInfo() {
@@ -136,14 +140,16 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$trafficBlocked = 0;
     	$message = "TESTMSG";
     	$dateTime = "2014-09-26 00:00:00";
-    
+    	$time = new Time();
+    	$timeStamp = $time->getTimeStamp($dateTime);
+    	
     	$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,$amountOfDead,
     			$amountOfInjured,$trafficBlocked,$message,$dateTime);
     	 
     	$jsonObj = $this->object->packAccidentData($id, $accidentReport);
     	$jsonStr = (string)$jsonObj;
     	 
-    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":"'.$dateTime.'"}}';
+    	$expected = '{"AccidentData":{"AccidentID":'.$id.',"Position":{"Latitude":'.$latitude.',"Longitude":'.$longitude.'},"AdditionalInfo":{"AccidentType":"'.$accidentType.'","AmountOfInjured":'.$amountOfInjured.',"AmountOfDead":'.$amountOfDead.',"TrafficBlocked":'.$trafficBlocked.',"Message":"'.$message.'"},"DateTime":'.$timeStamp.'}}';
     	 
     	$this->assertEquals($expected, $jsonStr);
     }

@@ -12,6 +12,8 @@ class logger{
 				", TrafficBlocked = ".$data->trafficBlocked.
 				", Message = ".$data->message.
 				", Date = ".$data->dateTime.
+				", ServerDate = ".$data->serverDateTime.
+				", Resolve = ".$data->resolve.
 				"<br />"."\n",
 				FILE_APPEND);
 	}
