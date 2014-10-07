@@ -72,13 +72,13 @@
 		function insertMissionReport($data){
 			$conn = $this->con;
 			$query="INSERT INTO MissionReport 
-			(ServerDateTime, IMEI,AccidentID,RescueState,DateTime,Message)
-			VALUES (?,?,?,?,?,?)";
+			(ServerDateTime, IMEI,AccidentID,RescueState,AssignDateTime,DateTime,Message)
+			VALUES (?,?,?,?,?,?,?)";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("ssiiss", 
+			$stmt->bind_param("ssiisss", 
 					$data->ServerDateTime,
 					$data->IMEI, $data->AccidentID, $data->RescueState,
-					$data->DateTime,$data->Message);
+					$data->AssignDateTime,$data->DateTime,$data->Message);
 			$stmt->execute();
 			$stmt->close();
 		}
