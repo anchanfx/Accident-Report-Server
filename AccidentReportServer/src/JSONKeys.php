@@ -22,5 +22,5 @@
 	define("STATUS", 			"Status");
 	define("IMEI", 				"IMEI");
 	define("RESCUE_STATE", 		"RescueState");
-	define("ASSIGN_DATE_TIME",	"AssignDateTime")
+	define("ASSIGN_DATE_TIME",	"AssignDateTime");
 ?>
