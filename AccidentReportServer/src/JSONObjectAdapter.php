@@ -27,16 +27,17 @@ class JSONObjectAdapter{
 		return $accidentReport;
 	}
 	
-	function extractRescueInfo($jsonString) {
+	function extractRescueUnit($jsonString) {
 		$jsonObj = json_decode($jsonString);
-		$latitude = $jsonObj->SelfUpdateData->Position->Latitude;
-		$longitude = $jsonObj->SelfUpdateData->Position->Longitude;
-		$status = $jsonObj->SelfUpdateData->RescueUnitStatus->Status;
-		$imei = $jsonObj->SelfUpdateData->IMEI->IMEI;
+		$longitude = $jsonObj->RescueUnitData->Position->Longitude;
+		$latitude = $jsonObj->RescueUnitData->Position->Latitude;
+		$online = $jsonObj->RescueUnitData->RescueStatus->StatusOnline;
+		$available = $jsonObj->RescueUnitData->RescueStatus->StatusAvailable;
+		$imei = $jsonObj->RescueUnitData->IMEI;
 	
-		$accidentReport = new AccidentReport($longitude,$latitude,$status,$imei,'');
+		$rescueInfo = new RescueUnit($longitude,$latitude,$online,$available,$imei);
 	
-		return $accidentReport;
+		return $rescueInfo;
 	}
 	
 	function extractIMEI($jsonString) {
@@ -53,9 +54,9 @@ class JSONObjectAdapter{
 		$assignDateTime = date(TIME_FORMAT, $jsonObj->MissionReport->AssignDateTime);
 		$dateTime = date(TIME_FORMAT, $jsonObj->MissionReport->DateTime);
 		$message = $jsonObj->MissionReport->Message;
-
+	
 		$missionReport = new MissionReport($imei, $accidentID,
-			$rescueState, $assignDateTime, $dateTime, $message);
+				$rescueState, $assignDateTime, $dateTime, $message);
 		return $missionReport;
 	}
 

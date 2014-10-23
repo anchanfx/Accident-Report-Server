@@ -65,10 +65,24 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals($dateTime, $result->dateTime);
     	
     }
-	
-    public function testExtractRescueInfo() {
+    
+    public function testExtractRescueUnit() {
+    	$rescueUnit = array();
+    	$rescueUnit['RescueUnitData']['Position']['Longitude'] = 2.435;
+    	$rescueUnit['RescueUnitData']['Position']['Latitude'] = 5.432;
+    	$rescueUnit['RescueUnitData']['RescueStatus']['StatusOnline'] = true;
+    	$rescueUnit['RescueUnitData']['RescueStatus']['StatusAvailable'] = false;
+    	$rescueUnit['RescueUnitData']['IMEI'] = '12345679';
+    	$jsonObj = json_encode($rescueUnit);
+    	$result = $this->object->extractRescueUnit($jsonObj);
     	
-    	$this->assertEquals("A", "");
+    	//$expected = '{"AccidentData":{"Position":{"Latitude":5.432,"Longitude":2.435 },"AdditionalInfo":{"AccidentType":"Test1","AmountOfInjured":100,"AmountOfDead":0,"TrafficBlocked":false,"Message":"TestData1"}}, "DateTime":1411689600}';
+    	
+    	$this->assertEquals($rescueUnit['RescueUnitData']['Position']['Longitude'], $result->longitude);
+    	$this->assertEquals($rescueUnit['RescueUnitData']['Position']['Latitude'], $result->latitude);
+    	$this->assertEquals($rescueUnit['RescueUnitData']['RescueStatus']['StatusOnline'], $result->online);
+    	$this->assertEquals($rescueUnit['RescueUnitData']['RescueStatus']['StatusAvailable'], $result->available);
+    	$this->assertEquals($rescueUnit['RescueUnitData']['IMEI'], $result->imei);
     }
     
     public function testExtractIMEI() {
@@ -86,6 +100,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$accidentID = 12;
     	$rescueState = 0;
     	$dateTime = date(TIME_FORMAT, 1411689600);
+    	$assignTimeStamp = 1411689600;
     	$timeStamp = 1411689600;
     	$message = 'TESTMSG';
     	
@@ -93,6 +108,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$json['MissionReport']['IMEI'] = $imei;
     	$json['MissionReport']['AccidentID'] = $accidentID;
     	$json['MissionReport']['RescueState'] = $rescueState;
+    	$json['MissionReport']['AssignDateTime'] = $assignTimeStamp;
     	$json['MissionReport']['DateTime'] = $timeStamp;
     	$json['MissionReport']['Message'] = $message;
     	$jsonObj = json_encode($json);
@@ -102,6 +118,7 @@ class JSONObjectAdapterTest extends PHPUnit_Framework_TestCase
     	$this->assertEquals($imei, $missionReport->IMEI);
     	$this->assertEquals($accidentID, $missionReport->AccidentID);
     	$this->assertEquals($rescueState, $missionReport->RescueState);
+    	$this->assertEquals($dateTime, $missionReport->AssignDateTime);
     	$this->assertEquals($dateTime, $missionReport->DateTime);
     	$this->assertEquals($message, $missionReport->Message);
     }

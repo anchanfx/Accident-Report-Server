@@ -98,11 +98,13 @@
 
 		function rescueUpdate($info){
 			$conn = $this->con;
-			$query="INSERT INTO RescueUnit (IMEI,Longitude,Latitude,Online,Available)
-			VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE";
+			$query="INSERT INTO RescueUnit (Longitude,Latitude,Online,Available,IMEI)
+					VALUES (?,?,?,?,?) ON DUPLICATE KEY 
+					UPDATE Longitude=?,Latitude=?,Online=?,Available=?";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("siiii",
-					$info->imei,$info->longitude,$info->latitude,$info->status,$info->available);
+			$stmt->bind_param("ddiisddii",
+					$info->longitude,$info->latitude,$info->online,$info->available,$info->imei,
+					$info->longitude,$info->latitude,$info->online,$info->available);
 			$stmt->execute();
 			$stmt->close();
 		}

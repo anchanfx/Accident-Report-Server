@@ -5,7 +5,7 @@
 	define("JSON_ADDITIONAL_INFO", 	"AdditionalInfo");
 	define("JSON_MISSION_REPORT", 	"MissionReport");
 	define("JSON_ACKNOWLEDGE_DATA", "AcknowledgeData");
-	define("JSON_RESCUE_DATA", 		"RescueData");
+	define("JSON_RESCUE_UNIT_DATA", "RescueUnitData");
 	define("JSON_RESCUE_STATUS", 	"RescueStatus");
 	
 	define("ACCIDENT_ID", 		"AccidentID");
@@ -19,7 +19,8 @@
 	define("DATE_TIME", 		"DateTime");
 	define("SERVER_DATE_TIME", 	"ServerDateTime");
 	define("RESOLVE",			"Resolve");
-	define("STATUS", 			"Status");
+	define("STATUS_ONLINE", 	"StatusOnline");
+	define("STATUS_AVAILABLE", 	"StatusAvailable");
 	define("IMEI", 				"IMEI");
 	define("RESCUE_STATE", 		"RescueState");
 	define("ASSIGN_DATE_TIME",	"AssignDateTime");
