@@ -160,7 +160,7 @@
                         $stmt->close();
 		}
                 
-                function selectAccidentReporterMessagePollingThatsNotYetPulled($imei) {
+        function selectAccidentReporterMessagePollingThatsNotYetPulled($imei) {
 			$accidentReporterMessagePollings = array();
 			$queryString = "SELECT ARMP.DateTime, ARMP.AccidentID, ARMP.Message, ARMP.Pull
                                         FROM AccidentReporterMessagePolling AS ARMP 
@@ -186,7 +186,7 @@
 			return $accidentReporterMessagePollings;
 		}
                 
-                function updatePullInAccidentReporterMessagePolling($accidentReporterMessage, $pull) {
+        function updatePullInAccidentReporterMessagePolling($accidentReporterMessage, $pull) {
 			$con = $this->con;
 			$queryString = "UPDATE AccidentReporterMessagePolling SET Pull=? 
 							WHERE DateTime=? AND AccidentID=?";
@@ -196,6 +196,16 @@
 				$accidentReporterMessage->DateTime, $accidentReporterMessage->AccidentID);
                         $stmt->execute();
                         $stmt->close();
+		}
+		
+		function updateAccidentResolve($resolve, $accidentID){
+			$con = $this->con;
+			$query = "UPDATE AccidentReport SET Resolve=? WHERE ID=?";
+				
+			$stmt = $con->prepare($query);
+			$stmt->bind_param("ii", $resolve, $accidentID);
+			$stmt->execute();
+			$stmt->close();
 		}
 	}
 ?>

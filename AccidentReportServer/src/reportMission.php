@@ -1,4 +1,4 @@
-<?php
+ <?php
 	header('Content-Type: text/html; charset=utf-8');
 	require_once ('DB.php');
 	require_once ('JSONObjectAdapter.php');
@@ -22,7 +22,6 @@
 			$db->insertMissionReport($missionReport);
 			$msg = $db->selectMessage('0000');
 			$db->closeDB();
-                        
                         processMissionReport($missionReport);
                         
 			$msgJson = $jsonAdapter->packReportAcknowledge($msg);
@@ -34,6 +33,7 @@
                 $state = $missionReport->RescueState;
                 $accept = 1;
                 $reject = -1;
+                $complete = 100;
                 
                 switch ($state) {
                         case $accept:
@@ -41,6 +41,9 @@
                                 break;
                         case $reject:
                                 // ??
+                                break;
+                        case $complete:
+                                resolveAccident($missionReport);
                                 break;
                         default:
                 }
@@ -67,6 +70,15 @@
                 $db->connect();
 		$db->insertAccidentReporterMessagePolling($data);
                 $db->closeDB();
+        }
+        
+        function resolveAccident($missionReport){
+                $resolve = 1;
+                
+        	$db = new DB();
+        	$db->connect();
+                $db->updateAccidentResolve($resolve, $missionReport->AccidentID);
+        	$db->closeDB();
         }
         
 	run();
