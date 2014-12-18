@@ -1,4 +1,4 @@
- <?php
+<?php
 	header('Content-Type: text/html; charset=utf-8');
 	require_once ('DB.php');
 	require_once ('JSONObjectAdapter.php');
@@ -12,7 +12,6 @@
 		if(!empty($jsonString))
 		{
 			$db = new DB();
-			$jsonObj = new JSONObjectAdapter();
 			$timeThai = new Time();
 			$jsonAdapter = new JSONObjectAdapter();
 			$missionReport = $jsonAdapter->extractMissionReport($jsonString);
