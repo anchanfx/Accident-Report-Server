@@ -9,6 +9,7 @@ require_once('Time.php');
 class JSONObjectAdapter{
 	function extractReportData($jsonString) {
 		$jsonObj = json_decode($jsonString);
+                $imei = $jsonObj->IMEI;
 		$latitude = $jsonObj->AccidentData->Position->Latitude;
 		$longitude = $jsonObj->AccidentData->Position->Longitude;
 		$accidentType = $jsonObj->AccidentData->AdditionalInfo->AccidentType;
@@ -23,7 +24,8 @@ class JSONObjectAdapter{
 	
 		$accidentReport = new AccidentReport($longitude,$latitude,$accidentType,
 				$amountOfDead,$amountOfInjured,$trafficBlocked,$message,$dateTime);
-	
+                $accidentReport->imei = $imei;
+                        
 		return $accidentReport;
 	}
 	
@@ -54,9 +56,9 @@ class JSONObjectAdapter{
 		$assignDateTime = date(TIME_FORMAT, $jsonObj->MissionReport->AssignDateTime);
 		$dateTime = date(TIME_FORMAT, $jsonObj->MissionReport->DateTime);
 		$message = $jsonObj->MissionReport->Message;
-	
+
 		$missionReport = new MissionReport($imei, $accidentID,
-				$rescueState, $assignDateTime, $dateTime, $message);
+			$rescueState, $assignDateTime, $dateTime, $message);
 		return $missionReport;
 	}
 

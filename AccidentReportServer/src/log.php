@@ -5,4 +5,5 @@ $log_file="log";
 
 $log=file_get_contents($log_file);
 echo $log;
+
 ?>

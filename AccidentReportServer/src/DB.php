@@ -38,8 +38,8 @@
 			$stmt = $conn->prepare("SELECT * FROM AccidentReport WHERE ID = ?");
 			$stmt->bind_param("i", $id);
 			$stmt->execute();
-			$stmt->bind_result($id, $longitude,$latitude,$accidentType,
-		                        $amountOfDead,$amountOfInjured,
+			$stmt->bind_result($id, $imei, $longitude,$latitude,$accidentType,
+                                        $amountOfDead,$amountOfInjured,
 		                        $trafficBlocked,$message,$dateTime, $serverDateTime, $resolve);
 	
 			$stmt->fetch();
@@ -48,6 +48,7 @@
 			$result = new AccidentReport($longitude,$latitude,$accidentType,
 	                    $amountOfDead,$amountOfInjured,
 						$trafficBlocked,$message,$dateTime);
+                        $result->imei = $imei;
 			$result->serverDateTime = $serverDateTime;
 			$result->resolve = $resolve;
 			
@@ -56,11 +57,11 @@
 	
 		function insertAccidentData($data){
 			$conn = $this->con;
-			$query="INSERT INTO AccidentReport (Longitude,Latitude,AccidentType,
+			$query="INSERT INTO AccidentReport (IMEI, Longitude,Latitude,AccidentType,
 			AmountOfDead,AmountOfInjured,TrafficBlocked,Message,DateTime,ServerDateTime,Resolve)
-			VALUES (?,?,?,?,?,?,?,?,?,?)";
+			VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("ddsiiisssi",
+			$stmt->bind_param("sddsiiisssi",$data->imei,
 					$data->longitude,$data->latitude,$data->accidentType,
 					$data->amountOfDead,$data->amountOfInjured,
 					$data->trafficBlocked,$data->message,$data->dateTime,
@@ -95,7 +96,20 @@
 			$stmt->execute();
 			$stmt->close();
 		}
-
+                
+                function insertAccidentReporterMessagePolling($data){
+			$conn = $this->con;
+			$query= "INSERT INTO AccidentReporterMessagePolling 
+			(DateTime, AccidentID, Message, Pull)
+			VALUES (?,?,?,?)";
+			$stmt = $conn->prepare($query);
+			$stmt->bind_param("sisi",
+					$data->DateTime, $data->AccidentID, 
+					$data->Message, $data->Pull);
+			$stmt->execute();
+			$stmt->close();
+		}
+                
 		function rescueUpdate($info){
 			$conn = $this->con;
 			$query="INSERT INTO RescueUnit (Longitude,Latitude,Online,Available,IMEI)
@@ -142,8 +156,46 @@
 			$stmt->bind_param("issi", $pull, 
 				$accidentPolling->DateTime, $accidentPolling->IMEI, 
 				$accidentPolling->AccidentID);
-	        $stmt->execute();
-	        $stmt->close();
+                        $stmt->execute();
+                        $stmt->close();
+		}
+                
+                function selectAccidentReporterMessagePollingThatsNotYetPulled($imei) {
+			$accidentReporterMessagePollings = array();
+			$queryString = "SELECT ARMP.DateTime, ARMP.AccidentID, ARMP.Message, ARMP.Pull
+                                        FROM AccidentReporterMessagePolling AS ARMP 
+                                                JOIN AccidentReport AS AR
+                                                ON ARMP.AccidentID = AR.ID
+                                        WHERE AR.IMEI=? AND Pull=0
+                                        ORDER BY DateTime ASC";
+			$con = $this->con;
+	
+			$stmt = $con->prepare($queryString);
+			$stmt->bind_param("s", $imei);
+			$stmt->execute();
+	
+			$stmt->bind_result($dateTime, $accidentID, $message, $pull);
+	
+			while ($stmt->fetch()) { 
+				$singleData = new AccidentReporterMessagePolling($dateTime, $accidentID, $message, $pull);
+				array_push($accidentReporterMessagePollings, $singleData);
+			}
+	
+			$stmt->close();
+	
+			return $accidentReporterMessagePollings;
+		}
+                
+                function updatePullInAccidentReporterMessagePolling($accidentReporterMessage, $pull) {
+			$con = $this->con;
+			$queryString = "UPDATE AccidentReporterMessagePolling SET Pull=? 
+							WHERE DateTime=? AND AccidentID=?";
+							
+			$stmt = $con->prepare($queryString);
+			$stmt->bind_param("isi", $pull, 
+				$accidentReporterMessage->DateTime, $accidentReporterMessage->AccidentID);
+                        $stmt->execute();
+                        $stmt->close();
 		}
 	}
 ?>

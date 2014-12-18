@@ -30,9 +30,10 @@ function run(){
 		//respond from server to android
 		$db->connect();
 		$msg = $db->selectMessage('0000');
+                $db->closeDB();
 		$msgJson = $jsonObj->packReportAcknowledge($msg);
 		echo $msgJson;
-		$db->closeDB();
+		
 	}
 }
 

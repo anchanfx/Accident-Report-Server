@@ -4,7 +4,8 @@
 	require_once ('JSONObjectAdapter.php');
 	require_once ('MissionReport.php');
 	require_once ('Time.php');
-
+        require_once ('AccidentReporterMessagePolling.php');
+        
 	function run(){
 		$jsonString = file_get_contents('php://input');
 
@@ -21,11 +22,52 @@
 			$db->insertMissionReport($missionReport);
 			$msg = $db->selectMessage('0000');
 			$db->closeDB();
-
+                        
+                        processMissionReport($missionReport);
+                        
 			$msgJson = $jsonAdapter->packReportAcknowledge($msg);
 			echo $msgJson;
 		}
 	}
-
+        
+        function processMissionReport($missionReport) {
+                $state = $missionReport->RescueState;
+                $accept = 1;
+                $reject = -1;
+                
+                switch ($state) {
+                        case $accept:
+                                processMissionAcceptance($missionReport);
+                                break;
+                        case $reject:
+                                // ??
+                                break;
+                        default:
+                }
+        }
+        
+        function processMissionAcceptance($missionReport) {
+                $db = new DB();
+                $db->connect();
+		$msg = $db->selectMessage('sr01');
+                $db->closeDB();
+                
+                storeAccidentReporterMessage($missionReport, $msg);
+        }
+        
+        function storeAccidentReporterMessage($missionReport, $message) {
+                $pull = 0;
+                
+                $data = new AccidentReporterMessagePolling(
+                        $missionReport->ServerDateTime,
+                        $missionReport->AccidentID,
+                        $message,
+                        $pull);
+                $db = new DB();
+                $db->connect();
+		$db->insertAccidentReporterMessagePolling($data);
+                $db->closeDB();
+        }
+        
 	run();
 ?>

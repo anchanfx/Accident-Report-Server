@@ -1,6 +1,7 @@
 <?php
 class AccidentReport{
-
+        
+        public $imei; // NOT IN Constructor
 	public $longitude;
 	public $latitude;
 	public $accidentType;
@@ -25,6 +26,10 @@ class AccidentReport{
 		$this->trafficBlocked = $trafficBlocked;
 		$this->message = $message;
 		$this->dateTime = $dateTime;
+                
+                $this->imei = "";
+		$this->serverDateTime = 0;
+		$this->resolve = 0;
 	}
 };
 ?>
