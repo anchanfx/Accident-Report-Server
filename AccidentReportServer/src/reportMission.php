@@ -20,6 +20,7 @@
 			
 			$db->connect();
 			$db->insertMissionReport($missionReport);
+			updateStatusAccident($missionReport);
 			$msg = $db->selectMessage('0000');
 			$db->closeDB();
                         
@@ -67,6 +68,15 @@
                 $db->connect();
 		$db->insertAccidentReporterMessagePolling($data);
                 $db->closeDB();
+        }
+        
+        function updateStatusAccident($info){
+        	$db = new DB();
+        	$db->connect();
+        	if($info->RescueState == 100){
+        		$db->updateResolve($info);
+        	}
+        	$db->closeDB();
         }
         
 	run();
